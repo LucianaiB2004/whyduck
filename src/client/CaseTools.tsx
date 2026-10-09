@@ -10,9 +10,11 @@ import { Empty, Field } from "./components";
 import type { Mutate } from "./Chat";
 function EvidenceImage({path,evidence,original=false}:{path:string;evidence:Evidence;original?:boolean}) {
  const [source,setSource]=useState(''),[error,setError]=useState('');
+ const [downloadUrl,setDownloadUrl]=useState('');
+ useEffect(()=>{if(!original||!source)return;const bytes=Uint8Array.from(atob(source.split(',')[1]),c=>c.charCodeAt(0));const url=URL.createObjectURL(new Blob([bytes],{type:evidence.mime}));setDownloadUrl(url);return()=>{URL.revokeObjectURL(url);};},[source,original,evidence.mime]);
  const container=useRef<HTMLDivElement>(null);
  useEffect(()=>{const controller=new AbortController();let started=false;setSource('');setError('');const load=()=>{if(started)return;started=true;evidenceDataUrl(path,controller.signal).then(value=>{if(!controller.signal.aborted)setSource(value);}).catch(err=>{if(!controller.signal.aborted)setError(err.message);});};const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();load();}},{rootMargin:'150px'});if(container.current)observer.observe(container.current);return()=>{observer.disconnect();controller.abort();};},[path]);
- return <div ref={container}>{error?<p role="alert">{error}</p>:source?<img className={original?'original-image':undefined} src={source} alt={evidence.filename}/>:<p>正在加载原始材料…</p>}{original&&source&&<a className="link" href={source} download={evidence.filename}>下载原始文件</a>}</div>;
+ return <div ref={container}>{error?<p role="alert">{error}</p>:source?<img className={original?'original-image':undefined} src={source} alt={evidence.filename}/>:<p>正在加载原始材料…</p>}{original&&downloadUrl&&<a className="link" href={downloadUrl} download={evidence.filename}>下载原始文件</a>}</div>;
 }
 export function CaseTools({
   page,
