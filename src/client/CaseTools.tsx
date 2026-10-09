@@ -5,9 +5,14 @@ import type {
   EvidenceExtraction,
   Draft,
 } from "../shared/types";
-import { ducks, avatar, uploadForm } from "./api";
+import { ducks, avatar, uploadForm, evidenceDataUrl } from "./api";
 import { Empty, Field } from "./components";
 import type { Mutate } from "./Chat";
+function EvidenceImage({path,evidence,original=false}:{path:string;evidence:Evidence;original?:boolean}) {
+ const [source,setSource]=useState(''),[error,setError]=useState('');
+ useEffect(()=>{let active=true;setSource('');setError('');evidenceDataUrl(path).then(value=>{if(active)setSource(value);}).catch(err=>{if(active)setError(err.message);});return()=>{active=false;};},[path]);
+ return <>{error?<p role="alert">{error}</p>:source?<img className={original?'original-image':undefined} src={source} alt={evidence.filename}/>:<p>正在加载原始材料…</p>}{original&&source&&<a className="link" href={source} download={evidence.filename}>下载原始文件</a>}</>;
+}
 export function CaseTools({
   page,
   record,
@@ -154,10 +159,7 @@ export function CaseTools({
               <article className="card evidence-card" key={e.id}>
                 <div className="evidence-preview">
                   {e.sourceType === "image" ? (
-                    <img
-                      src={"/api" + base + "/evidence/" + e.id + "/file"}
-                      alt={e.filename}
-                    />
+                    <EvidenceImage path={base+"/evidence/"+e.id+"/file"} evidence={e} />
                   ) : (
                     <p>{e.sourceText?.slice(0, 100)}</p>
                   )}
@@ -679,24 +681,11 @@ function EvidenceDetail({
       <section className="card">
         <h3>{evidence.code} · 原始材料</h3>
         {evidence.sourceType === "image" ? (
-          <a target="_blank" rel="noreferrer" href={"/api" + path + "/file"}>
-            <img
-              className="original-image"
-              src={"/api" + path + "/file"}
-              alt={evidence.filename}
-            />
-          </a>
+          <EvidenceImage path={path+"/file"} evidence={evidence} original />
         ) : (
           <pre className="source-text">{evidence.sourceText}</pre>
         )}
-        <a
-          className="link"
-          target="_blank"
-          rel="noreferrer"
-          href={"/api" + path + "/file"}
-        >
-          打开原始文件
-        </a>
+        {evidence.sourceType==='text'&&<a className="link" target="_blank" rel="noreferrer" href={"/api"+path+"/file"}>打开原始文件</a>}
         <p className="small muted">SHA-256：{evidence.sha256}</p>
       </section>
       <section className="card">
