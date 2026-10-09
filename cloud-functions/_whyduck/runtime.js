@@ -24,7 +24,13 @@ export function createCloudRuntime(factory = createApp) {
       // Some framework adapters strip the filesystem prefix; restore it once.
       if (!req.url.startsWith('/api/')) req.url = `/api${req.url.startsWith('/')?'':'/'}${req.url}`;
       service(req, res, next);
-    } catch {
+    } catch (error) {
+      // Log error identifiers and call sites only, never credentials, materials or raw messages.
+      console.error('WHYDUCK_CLOUD_INITIALIZATION_FAILED', {
+        name:error?.name,
+        code:typeof error?.code==='string'&&/^[A-Z0-9_]+$/.test(error.code)?error.code:undefined,
+        frames:typeof error?.stack==='string'?error.stack.split('\n').filter(line=>/^\s+at /.test(line)).slice(0,6):[],
+      });
       if (!res.headersSent) res.status(503).set('Cache-Control','no-store').json({error:{code:'CLOUD_INITIALIZATION_FAILED',message:'云端服务初始化失败，请检查数据库与存储配置。'}});
       else res.end();
     }
