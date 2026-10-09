@@ -10,6 +10,9 @@ it('rejects corrupted evidence instead of displaying altered bytes',async()=>{
  vi.stubGlobal('fetch',vi.fn().mockResolvedValue(Response.json({mime:'image/png',base64:'iVBORwD/',size:6,offset:0,nextOffset:null,sha256:'0'.repeat(64)})));
  await expect(evidenceDataUrl('/file')).rejects.toThrow('校验失败');
 });
+it('passes cancellation through to private material requests',async()=>{
+ const controller=new AbortController();const fetcher=vi.fn().mockImplementation((_url,options)=>{expect(options.signal).toBe(controller.signal);throw new DOMException('cancelled','AbortError');});vi.stubGlobal('fetch',fetcher);controller.abort();await expect(evidenceDataUrl('/file',controller.signal)).rejects.toThrow('cancelled');
+});
 
 it("explains a static hosting HTML response instead of treating it as API success", async () => {
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("<!doctype html><html></html>", {

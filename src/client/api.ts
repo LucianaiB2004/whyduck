@@ -10,10 +10,12 @@ export async function api<T>(
   path: string,
   method = "GET",
   body?: unknown,
+  signal?: AbortSignal,
 ): Promise<T> {
   const route = requestRoute(path);
   const r = await fetch(route.url, {
     method,
+    signal,
     credentials: "same-origin",
     headers: {
       "X-WhyDuck-Client": "web",
@@ -31,10 +33,10 @@ export async function api<T>(
   }
   return r.json();
 }
-export async function evidenceDataUrl(path:string):Promise<string> {
+export async function evidenceDataUrl(path:string,signal?:AbortSignal):Promise<string> {
   let offset=0,size=-1,mime='',sha256='';const chunks:Uint8Array[]=[];
   do {
-    const part=await api<{mime:string;base64:string;size:number;offset:number;nextOffset:number|null;sha256?:string}>(path+`?encoding=base64&offset=${offset}`);
+    const part=await api<{mime:string;base64:string;size:number;offset:number;nextOffset:number|null;sha256?:string}>(path+`?encoding=base64&offset=${offset}`,'GET',undefined,signal);
     if(part.offset!==offset||part.size<0||part.size>10*1024*1024||(size>=0&&(part.size!==size||part.mime!==mime||(part.sha256||'')!==sha256)))throw new Error('材料传输不完整');
     const bytes=Uint8Array.from(atob(part.base64),c=>c.charCodeAt(0));chunks.push(bytes);size=part.size;mime=part.mime;
     sha256=part.sha256||'';offset+=bytes.length;
