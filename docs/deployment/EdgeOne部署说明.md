@@ -2,7 +2,7 @@
 
 静态页面与后端分别部署：`dist/client` 是唯一公开静态目录，`cloud-functions/api/[[default]].js` 导出 `onRequest(context)`，通过共享 Web/Express 适配器处理 `/api/*`。没有 `listen()`，不使用云函数临时 SQLite 保存案件。
 
-构建命令：`npm run build:edgeone`，对应 `tsc --noEmit && vite build --mode edgeone && node scripts/build-edgeone.mjs`。构建脚本生成两个私有目录中的服务 bundle；法律来源 JSON 由源代码静态导入并打入服务 bundle。Cloud Functions 和 Agents 均使用显式 `onRequest(context)` Web 入口，再通过共享适配器调用 Express。原生 `sharp` 在平台安装阶段由 externalNodeModules 单独处理。
+构建命令：`npm run build:edgeone`，对应 `tsc --noEmit && vite build --mode edgeone && node scripts/build-edgeone.mjs`。构建脚本生成两个私有目录中的服务 bundle；法律来源 JSON 由源代码静态导入并打入服务 bundle。Cloud Functions catch-all 由平台调用 `default.fetch`，保留 `onRequest(context)`；Agents 请求头是普通对象，body 是解析后的对象，入口先转为 Web Request，再通过共享适配器调用 Express。原生 `sharp` 必须分别配置 cloudFunctions 与 agents 的 externalNodeModules。
 
 ## 运行环境变量
 
@@ -33,7 +33,8 @@
 
 - 本地 API 使用真实千问完成管家路由、证据提取/对比、退款草稿、跟进待办、最终汇总；5 个独立角色运行，8 条真实材料引用，原图 SHA-256、重新登录恢复及报告验证通过。证据：本地忽略目录 `artifacts/acceptance/cloud-migration-local-live.json`。
 - 千问文本、视觉及组聊独立检查通过；页面自动检查 57 项（19 页面×3种宽度）及 13 项交互通过。
-- 云端适配及 SQL/Blob 单元测试不等于真实远程数据库或 Blob 联调；尚无 Turso URL/Token 与自定义域名，永久公网发布未完成。
+- 已创建 Free Turso whyduck 数据库，将仅限此库的 90 天 Token 配置至 EdgeOne 服务端；注册、案件保存、加密 Blob 上传和真实千问协作已经实际联调。凭据只保存在 Git 忽略的私有配置与平台环境变量。自定义域名由用户暂缓，当前仍为平台限时预览。
+- 云端合成案件实际执行 6 次模型运行、5 个独立角色，调用分工、图像提取、商家说法对比、方案生成、跟进管理工具；保存 1 份草稿和 1 个待确认任务。证据：artifacts/acceptance/cloud-real-workflow.json。模型输出仍需人工核对，不代表已联系商家或退款成功。
 - SQL 租约串行化案件写入；无租约保存不能覆盖被锁案件。AI 结果、原始任务上下文和审计在同一事务提交。MCP 图片提取使用相同租约。取消通过当前运行身份或数据库运行 Token 校验。
 
 ## 尚未开通外部资源时
@@ -43,3 +44,7 @@
 3. 按上述清单配置加密证据存储、备份加密密钥及千问服务端密钥，然后触发部署并执行真实云端流程验收。
 
 账户服务条款接受、域名购买和付款由账户所有者完成；当前未创建收费资源。
+
+## 私有材料传输
+
+实测当前 Cloud Functions 框架会将二进制 Response 经 UTF-8 转换，破坏 PNG。前端通过原鉴权路径 `/file?encoding=base64&offset=0` 获取固定 1 MiB 分块 JSON，按 nextOffset 接续，还原原字节并核对 SHA-256。每块低于平台响应限额，保留 10 MiB 上传范围；不公开 Blob 原文 URL。未登录访问仍为 401，响应 private/no-store。原二进制接口保留给本地/原生客户端；当前平台上的浏览器应使用分块接口。

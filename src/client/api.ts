@@ -32,16 +32,17 @@ export async function api<T>(
   return r.json();
 }
 export async function evidenceDataUrl(path:string):Promise<string> {
-  let offset=0,size=-1,mime='';const chunks:Uint8Array[]=[];
+  let offset=0,size=-1,mime='',sha256='';const chunks:Uint8Array[]=[];
   do {
-    const part=await api<{mime:string;base64:string;size:number;offset:number;nextOffset:number|null}>(path+`?encoding=base64&offset=${offset}`);
-    if(part.offset!==offset||part.size<0||part.size>10*1024*1024||(size>=0&&part.size!==size))throw new Error('材料传输不完整');
+    const part=await api<{mime:string;base64:string;size:number;offset:number;nextOffset:number|null;sha256?:string}>(path+`?encoding=base64&offset=${offset}`);
+    if(part.offset!==offset||part.size<0||part.size>10*1024*1024||(size>=0&&(part.size!==size||part.mime!==mime||(part.sha256||'')!==sha256)))throw new Error('材料传输不完整');
     const bytes=Uint8Array.from(atob(part.base64),c=>c.charCodeAt(0));chunks.push(bytes);size=part.size;mime=part.mime;
-    offset+=bytes.length;
+    sha256=part.sha256||'';offset+=bytes.length;
     if(part.nextOffset===null){if(offset!==size)throw new Error('材料传输不完整');break;}
     if(!bytes.length||part.nextOffset!==offset)throw new Error('材料传输不完整');
   }while(offset<size);
   const bytes=new Uint8Array(size);let position=0;for(const chunk of chunks){bytes.set(chunk,position);position+=chunk.length;}
+  if(sha256){const digest=await crypto.subtle.digest('SHA-256',bytes);if(Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('')!==sha256)throw new Error('原始材料校验失败');}
   let binary='';for(let i=0;i<bytes.length;i+=32768)binary+=String.fromCharCode(...bytes.subarray(i,i+32768));
   return `data:${mime};base64,${btoa(binary)}`;
 }

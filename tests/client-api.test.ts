@@ -6,6 +6,10 @@ it('reassembles binary evidence chunks without UTF8 conversion',async()=>{
  const fetcher=vi.fn().mockResolvedValueOnce(Response.json({mime:'image/png',base64:'iVBORw==',size:6,offset:0,nextOffset:4})).mockResolvedValueOnce(Response.json({mime:'image/png',base64:'AP8=',size:6,offset:4,nextOffset:null}));vi.stubGlobal('fetch',fetcher);
  expect(await evidenceDataUrl('/cases/c/evidence/e/file')).toBe('data:image/png;base64,iVBORwD/');expect(fetcher.mock.calls[1][0]).toContain('offset=4');
 });
+it('rejects corrupted evidence instead of displaying altered bytes',async()=>{
+ vi.stubGlobal('fetch',vi.fn().mockResolvedValue(Response.json({mime:'image/png',base64:'iVBORwD/',size:6,offset:0,nextOffset:null,sha256:'0'.repeat(64)})));
+ await expect(evidenceDataUrl('/file')).rejects.toThrow('校验失败');
+});
 
 it("explains a static hosting HTML response instead of treating it as API success", async () => {
   vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("<!doctype html><html></html>", {
