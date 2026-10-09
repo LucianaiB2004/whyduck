@@ -13,3 +13,4 @@ for (const root of ['cloud-functions/_whyduck','agents/_whyduck']) {
   }]});
 }
 await copyFile('cloud-functions/_whyduck/runtime.js','agents/_whyduck/runtime.js');
+await copyFile('cloud-functions/_whyduck/express-web.js','agents/_whyduck/express-web.js');

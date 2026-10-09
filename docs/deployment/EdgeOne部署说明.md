@@ -2,7 +2,7 @@
 
 静态页面与后端分别部署：`dist/client` 是唯一公开静态目录，`cloud-functions/api/[[default]].js` 导出 Express 实例处理 `/api/*`。没有 `listen()`，不使用云函数临时 SQLite 保存案件。
 
-构建命令：`npm run build:edgeone`，对应 `tsc --noEmit && vite build --mode edgeone && node scripts/build-edgeone.mjs`。构建脚本生成两个私有目录中的服务 bundle；法律来源 JSON 应由源代码静态导入，配置也保留该资源打包路径。原生 `sharp` 在平台安装阶段由 externalNodeModules 单独处理。
+构建命令：`npm run build:edgeone`，对应 `tsc --noEmit && vite build --mode edgeone && node scripts/build-edgeone.mjs`。构建脚本生成两个私有目录中的服务 bundle；法律来源 JSON 由源代码静态导入并打入服务 bundle。Cloud Functions 和 Agents 均使用显式 `onRequest(context)` Web 入口，再通过共享适配器调用 Express。原生 `sharp` 在平台安装阶段由 externalNodeModules 单独处理。
 
 ## 运行环境变量
 
