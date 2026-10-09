@@ -12,6 +12,9 @@ import {onRequest as agentEntry} from '../agents/whyduck/index.js';
 import {configurationErrors,createCloudRuntime} from '../cloud-functions/_whyduck/runtime.js';
 
 describe('EdgeOne Web/Express adapter',()=>{
+ it('delivers complete PNG bytes through the Cloud Functions entry',async()=>{
+  const bytes=Buffer.from([137,80,78,71,0,255,0,128]);const app=express();app.get('/api/image',(_req,res)=>res.type('png').send(bytes));const handler=createRequestHandler(app);const response=await handler({request:new Request('https://example.test/api/image')});expect(response.headers.get('content-type')).toContain('image/png');expect(Buffer.from(await response.arrayBuffer())).toEqual(bytes);
+ });
  it('accepts the real parsed AgentContextRequest contract',async()=>{
   const original=process.env.EVIDENCE_STORAGE;delete process.env.EVIDENCE_STORAGE;
   const id='3a0657a7-4f79-44fb-8629-2fafd3cb1d2a';
