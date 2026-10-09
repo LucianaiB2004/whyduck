@@ -3,5 +3,5 @@
   "buildCommand": "npm run build:edgeone",
   "outputDirectory": "dist/client",
   "cloudFunctions": {"maxDuration":120,"externalNodeModules":["sharp"]},
-  "agents": {"dir":"agents","timeout":900}
+  "agents": {"dir":"agents","timeout":900,"externalNodeModules":["sharp"]}
 }
