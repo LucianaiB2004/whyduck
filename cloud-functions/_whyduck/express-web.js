@@ -4,10 +4,12 @@ import {Socket} from 'node:net';
 // Adapt the platform's Web Request/Response contract without opening a listening socket.
 export async function expressWeb(app, request, path, clientIp) {
   const socket=new Socket();
-  if(clientIp)Object.defineProperty(socket,'remoteAddress',{value:clientIp});
+  Object.defineProperty(socket,'remoteAddress',{value:clientIp||'0.0.0.0'});
   const req=new IncomingMessage(socket);
   req.method=request.method;req.url=path;req.originalUrl=path;
   req.headers=Object.fromEntries(request.headers.entries());req.httpVersion='1.1';
+  // The bridge supplies the platform IP directly; do not trust caller forwarding headers.
+  delete req.headers['x-forwarded-for'];
   // Web Request bodies have no transfer-encoding header; Express body parsers need framing.
   if(request.body&&!req.headers['content-length'])req.headers['transfer-encoding']='chunked';
   req.rawHeaders=[...request.headers.entries()].flat();
@@ -33,6 +35,6 @@ export async function expressWeb(app, request, path, clientIp) {
     Object.defineProperty(res,'destroyed',{get:()=>aborted});
     request.signal.addEventListener('abort',abort,{once:true});
     app(req,res,error=>{if(error){if(!started)reject(error);else controller.error(error);}else if(!finished){res.statusCode=404;res.end();}});
-    (async()=>{try{if(request.body){for await(const chunk of request.body)req.push(Buffer.from(chunk));}req.push(null);}catch(error){req.destroy(error);if(!started)reject(error);else controller.error(error);}})();
+    (async()=>{try{if(request.body){for await(const chunk of request.body)req.push(Buffer.from(chunk));}req.complete=true;req.push(null);}catch(error){req.destroy(error);if(!started)reject(error);else controller.error(error);}})();
   });
 }

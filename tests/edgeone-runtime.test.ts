@@ -1,5 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import express from 'express';
+import multer from 'multer';
 // Deployment entries are JavaScript platform contracts, independently exercised locally.
 // @ts-ignore no declaration is needed for deployment-only adapter
 import {expressWeb} from '../cloud-functions/_whyduck/express-web.js';
@@ -9,6 +10,15 @@ import cloudEntry,{onRequest} from '../cloud-functions/api/[[default]].js';
 import {configurationErrors,createCloudRuntime} from '../cloud-functions/_whyduck/runtime.js';
 
 describe('EdgeOne Web/Express adapter',()=>{
+ it('preserves multipart upload bytes through the Web bridge',async()=>{
+  const app=express();app.post('/api/upload',multer({storage:multer.memoryStorage()}).single('file'),(req,res)=>res.json({bytes:req.file!.buffer.toString('base64'),mime:req.file!.mimetype}));
+  const form=new FormData();const bytes=new Uint8Array([137,80,78,71,0,255,0,128]);form.set('file',new Blob([bytes],{type:'image/png'}),'test.png');
+  const response=await expressWeb(app,new Request('https://example.test/api/upload',{method:'POST',body:form}),'/api/upload');expect(await response.json()).toEqual({bytes:Buffer.from(bytes).toString('base64'),mime:'image/png'});
+ });
+ it('uses only the trusted platform client IP rather than forwarded headers',async()=>{
+  const app=express();app.get('/api/ip',(req,res)=>res.json({ip:req.ip,forwarded:req.headers['x-forwarded-for']??null}));
+  const response=await expressWeb(app,new Request('https://example.test/api/ip',{headers:{'x-forwarded-for':'198.51.100.88'}}),'/api/ip','203.0.113.7');expect(await response.json()).toEqual({ip:'203.0.113.7',forwarded:null});
+ });
  it('invokes the actual Cloud Functions Web entry without an app.fetch contract',async()=>{
   const original=process.env.EVIDENCE_STORAGE;delete process.env.EVIDENCE_STORAGE;
   try {for(const response of [await onRequest({request:new Request('https://example.test/api/health'),clientIp:'127.0.0.1'}),await cloudEntry.fetch(new Request('https://example.test/api/health'))]){expect(response.status).toBe(503);expect((await response.json()).error.code).toBe('CLOUD_UNCONFIGURED');}}finally{if(original!==undefined)process.env.EVIDENCE_STORAGE=original;}
