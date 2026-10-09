@@ -151,7 +151,9 @@ export function App() {
       <div className="prototype-note">
         凭啥鸭 · 售后鸭鸭局{" "}
         <span>
-          {cap?.aiConfigured
+          {!cap
+            ? loading ? "正在连接服务…" : "后端服务未连接 · AI 与案件保存尚不可用"
+            : cap.aiConfigured
             ? "真实 AI 已配置"
             : "AI 尚未配置 · 案件与材料可真实保存"}
         </span>

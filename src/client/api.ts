@@ -13,6 +13,9 @@ export async function api<T>(
     },
     body: body ? JSON.stringify(body) : undefined,
   });
+  if (!r.headers.get("content-type")?.includes("application/json")) {
+    throw new Error("后端服务尚未部署或 API 路由配置不正确，暂时无法登录、保存案件或调用 AI。");
+  }
   if (!r.ok) {
     const data = await r.json().catch(() => null);
     throw new Error(data?.error?.message || `请求失败 ${r.status}`);
