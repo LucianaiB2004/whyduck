@@ -12,5 +12,8 @@ artifacts/
 *.key
 .edgeone/
 cloud-functions/.generated/
+cloud-functions/_whyduck/app.js
+agents/_whyduck/app.js
+agents/_whyduck/runtime.js
 playwright-report/
 test-results/

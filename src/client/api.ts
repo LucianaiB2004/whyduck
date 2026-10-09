@@ -1,14 +1,23 @@
 import type { AgentEvent, AgentId } from "../shared/types";
+export function requestRoute(path: string) {
+  const match = /^\/cases\/([a-f0-9-]{36})\/(messages|retry|runs\/[a-f0-9-]{36}\/cancel)$/.exec(path);
+  if (import.meta.env.VITE_EDGEONE_AGENTS === "true" && match) {
+    return {url: "/whyduck?path=" + encodeURIComponent("/api" + path), headers: {"Makers-Conversation-Id": match[1]}};
+  }
+  return {url: "/api" + path, headers: {} as Record<string,string>};
+}
 export async function api<T>(
   path: string,
   method = "GET",
   body?: unknown,
 ): Promise<T> {
-  const r = await fetch("/api" + path, {
+  const route = requestRoute(path);
+  const r = await fetch(route.url, {
     method,
     credentials: "same-origin",
     headers: {
       "X-WhyDuck-Client": "web",
+      ...route.headers,
       ...(body ? { "Content-Type": "application/json" } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -28,9 +37,10 @@ export async function stream(
   onEvent: (event: AgentEvent) => void,
   signal: AbortSignal,
 ) {
-  const r = await fetch("/api" + path, {
+  const route = requestRoute(path);
+  const r = await fetch(route.url, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "X-WhyDuck-Client": "web" },
+    headers: { "Content-Type": "application/json", "X-WhyDuck-Client": "web", ...route.headers },
     credentials: "same-origin",
     body: JSON.stringify(body),
     signal,

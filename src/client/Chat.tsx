@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Send, Paperclip, Plus, Copy } from "lucide-react";
 import type { AgentId, CaseRecord, User, AgentEvent } from "../shared/types";
 import { api, stream, ducks, avatar, character } from "./api";
@@ -32,6 +32,7 @@ export function Chat({
     [controller, setController] = useState<AbortController | null>(null),
     [modal, setModal] = useState(""),
     [error, setError] = useState("");
+  const workflowId = useRef<string | undefined>(undefined);
   const d = ducks.find((d) => d.id === role);
   const failedRun = record?.runs.filter((r) => r.status === "failed").at(-1);
   useEffect(() => {
@@ -53,6 +54,7 @@ export function Chat({
     setBusy(true);
     setError("");
     setEvent(null);
+    workflowId.current = undefined;
     let routedToMeeting = false;
     try {
       await stream(
@@ -67,6 +69,7 @@ export function Chat({
             },
         (e) => {
           setEvent(e);
+          if (e.type === "route" && e.runId) workflowId.current = e.runId;
           if (e.type === "route" && role === "butler") routedToMeeting = true;
           if (e.type === "error") setError(e.message || "处理失败");
           if (e.type === "result")
@@ -267,8 +270,8 @@ export function Chat({
                   <button
                     onClick={async () => {
                       try {
-                        if (event?.runId && record)
-                          await api(`/cases/${record.id}/runs/${event.runId}/cancel`,"POST");
+                        if ((workflowId.current || event?.runId) && record)
+                          await api(`/cases/${record.id}/runs/${workflowId.current || event?.runId}/cancel`,"POST");
                         setEvent({type:"cancelled",message:"你已取消本次处理"});
                         notify("已取消处理，已有材料仍保留");
                       } catch(e) {

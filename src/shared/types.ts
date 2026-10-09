@@ -19,12 +19,12 @@ export type WorkflowDeps = {emit:(event:AgentEvent)=>void;persist:(output:AgentO
 export type Capabilities = {mode:'live'|'unconfigured';textModel:string;visionModel:string;aiConfigured:boolean;visionConfigured:boolean;alipayConfigured:boolean;mcpEnabled:boolean;legalSources:{title:string;url:string;checkedAt:string;note:string}[]};
 export type ToolContext = {userId:string;caseId:string;signal?:AbortSignal};
 export interface BusinessServices {
- getCase(userId:string,caseId:string):CaseRecord;
- listCases(userId:string):CaseRecord[];
+ getCase(userId:string,caseId:string):Promise<CaseRecord>;
+ listCases(userId:string):Promise<CaseRecord[]>;
  executeTool(name:string,input:Record<string,unknown>,context:ToolContext):Promise<unknown>;
- getUser(userId:string):User;
- authenticateToken(token:string):User|null;
+ getUser(userId:string):Promise<User>;
+ authenticateToken(token:string):Promise<User|null>;
  getCapabilities():Capabilities;
- linkAlipay(userId:string,alipayUserId:string):void;
- unlinkAlipay(userId:string):void;
+ linkAlipay(userId:string,alipayUserId:string):Promise<void>;
+ unlinkAlipay(userId:string):Promise<void>;
 }

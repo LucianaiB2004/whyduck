@@ -7,10 +7,10 @@ import type {BusinessServices} from '../../shared/types.js';
 export const toolNames = ['analyze_consumer_issue','extract_purchase_evidence','compare_merchant_statements','generate_after_sales_plan','manage_follow_up','prepare_dispute_escalation','route_to_ducks'] as const;
 export function createMcpRouter(services:BusinessServices):Router {
  const router=Router();
- router.use((req,res,next)=>{
+ router.use(async (req,res,next)=>{
   if(process.env.MCP_ENABLED==='false'){res.status(503).json({error:{code:'MCP_DISABLED',message:'MCP 未启用'}});return;}
   const token=/^Bearer (\S+)$/i.exec(req.headers.authorization??'')?.[1];
-  const user=token?services.authenticateToken(token):null;
+  const user=token?(await services.authenticateToken(token)):null;
   if(!user){res.status(401).json({error:{code:'UNAUTHORIZED',message:'需要有效的账户访问令牌'}});return;}
   res.locals.mcpUser=user;next();
  });
@@ -21,7 +21,7 @@ export function createMcpRouter(services:BusinessServices):Router {
    inputSchema:{caseId:z.string().min(1).max(128),message:z.string().max(12000).optional(),evidenceId:z.string().min(1).max(128).optional(),evidenceIds:z.array(z.string().min(1).max(128)).max(30).optional(),goal:z.string().max(2000).optional(),dueAt:z.string().datetime().optional()},
   },async(input)=>{
    try{
-    services.getCase(res.locals.mcpUser.id,input.caseId);
+    (await services.getCase(res.locals.mcpUser.id,input.caseId));
     const {caseId,...arguments_}=input;
     const result=await services.executeTool(name,arguments_,{userId:res.locals.mcpUser.id,caseId});
     return {content:[{type:'text' as const,text:JSON.stringify(result)}]};

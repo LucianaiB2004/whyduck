@@ -32,7 +32,7 @@ export function createAlipayRouter(services:BusinessServices):Router {
   try{
    const result=await sdk.exec('alipay.system.oauth.token',{grantType:'authorization_code',code},{validateSign:true});
    if(typeof result.user_id!=='string'||!result.user_id||result.error_response)throw new Error('invalid identity');
-   services.linkAlipay(user.id,result.user_id);
+   (await services.linkAlipay(user.id,result.user_id));
    res.json({ok:true,note:'已关联经过支付宝签名验证的身份，未获得交易数据读取权限'});
    }catch(error){
     if(error&&typeof error==='object'&&'code' in error&&error.code==='ALIPAY_ALREADY_LINKED'){
@@ -41,6 +41,6 @@ export function createAlipayRouter(services:BusinessServices):Router {
     res.status(502).json({error:{code:'ALIPAY_AUTH_FAILED',message:'支付宝授权交换或验签失败，未关联账户'}});
    }
  });
- router.delete('/link',(_req,res)=>{const user=res.locals.user as User|undefined;if(!user){res.status(401).json({error:{code:'UNAUTHORIZED',message:'请先登录'}});return;}services.unlinkAlipay(user.id);res.json({ok:true});});
+ router.delete('/link',async (_req,res)=>{const user=res.locals.user as User|undefined;if(!user){res.status(401).json({error:{code:'UNAUTHORIZED',message:'请先登录'}});return;}(await services.unlinkAlipay(user.id));res.json({ok:true});});
  return router;
 }

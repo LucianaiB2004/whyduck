@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "concurrently -k \"tsx watch src/server/index.ts\" \"vite --host 127.0.0.1\"",
     "build": "tsc --noEmit && vite build && tsup",
+    "build:edgeone": "tsc --noEmit && vite build --mode edgeone && node scripts/build-edgeone.mjs",
     "start": "node --env-file-if-exists=.env dist/server/index.js",
     "server": "tsx src/server/index.ts",
     "typecheck": "tsc --noEmit",
@@ -17,6 +18,8 @@
     "verify:live": "tsx scripts/verify-live.ts"
   },
   "dependencies": {
+    "@edgeone/pages-blob": "^0.0.18",
+    "@libsql/client": "^0.18.0",
     "@modelcontextprotocol/sdk": "^1.20.0",
     "alipay-sdk": "^4.14.0",
     "dotenv": "^17.2.3",
