@@ -2,6 +2,6 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build:edgeone",
   "outputDirectory": "dist/client",
-  "cloudFunctions": {"nodejs": {"maxDuration":120,"externalNodeModules":["sharp"],"includeFiles":["docs/integrations/legal-sources.json"]}},
+  "cloudFunctions": {"maxDuration":120,"externalNodeModules":["sharp"]},
   "agents": {"dir":"agents","timeout":900}
 }
