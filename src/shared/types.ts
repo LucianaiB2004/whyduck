@@ -1,0 +1,30 @@
+export const agentIds = ['butler','analyst','detective','refund','followup','escalation'] as const;
+export type AgentId = typeof agentIds[number];
+export type User = {id:string;email:string;name:string;aiConsent:boolean;createdAt:string};
+export type Citation = {evidenceId:string;quote:string};
+export type Fact = {id:string;label:string;value:string;status:'proposed'|'confirmed';origin:'user'|'ai'|'external';evidenceId?:string;quote?:string;revision:number};
+export type EvidenceExtraction = {merchant?:string;amount?:string;date?:string;product?:string;orderNumber?:string;refundStatus?:string;quotes?:string[];uncertainties?:string[]};
+export type Evidence = {id:string;code:string;filename:string;mime:string;size:number;sha256:string;sourceType:'image'|'text';sourceText?:string;extraction?:EvidenceExtraction;confirmed:boolean;createdAt:string};
+export type Task = {id:string;title:string;agentId:AgentId;priority:'high'|'normal'|'low';dueAt?:string;status:'proposed'|'pending'|'done';createdAt:string};
+export type Draft = {id:string;tone:'gentle'|'firm'|'formal';text:string;factRevision:number;stale:boolean;createdAt:string};
+export type AgentRun = {id:string;agentId:AgentId;status:'running'|'completed'|'failed'|'cancelled';startedAt:string;endedAt?:string;error?:string;summary?:string;inputTokens?:number;outputTokens?:number;tools:string[];dependsOn:string[];factRevision:number;validationCorrections?:number;visionModel?:string;textModel?:string};
+export type Message = {id:string;role:'user'|'agent'|'system';agentId?:AgentId;content:string;citations:Citation[];createdAt:string;mode:'live'|'demo';runId?:string;result?:AgentOutput};
+export type CaseRecord = {id:string;ownerId:string;title:string;merchant:string;product:string;amount:string;purchaseDate:string;request:string;category:string;status:'active'|'waiting'|'resolved'|'archived';demo:boolean;factRevision:number;members:AgentId[];facts:Fact[];evidence:Evidence[];messages:Message[];tasks:Task[];drafts:Draft[];runs:AgentRun[];createdAt:string;updatedAt:string};
+export type ProposedFact = {label:string;value:string;evidenceId?:string;quote?:string};
+export type ProposedTask = {title:string;agentId:AgentId;priority:'high'|'normal'|'low';dueAt?:string};
+export type AgentOutput = {agentId:AgentId;message:string;facts:ProposedFact[];tasks:ProposedTask[];drafts:{tone:'gentle'|'firm'|'formal';text:string}[];citations:Citation[];missingEvidence:string[];suggestedMembers:AgentId[];extractions?:{evidenceId:string;data:EvidenceExtraction}[];usage?:{inputTokens:number;outputTokens:number};tools?:string[]};
+export type WorkflowRequest = {message:string;target?:AgentId;mode:'group'|'direct';runId:string;signal?:AbortSignal;images?:{evidenceId:string;dataUrl:string}[]};
+export type AgentEvent = {type:'start'|'result'|'error'|'done'|'cancelled'|'route';agentId?:AgentId;runId?:string;output?:AgentOutput;message?:string;members?:AgentId[];usage?:{inputTokens:number;outputTokens:number}};
+export type WorkflowDeps = {emit:(event:AgentEvent)=>void;persist:(output:AgentOutput,run:AgentRun)=>Promise<void>};
+export type Capabilities = {mode:'live'|'unconfigured';textModel:string;visionModel:string;aiConfigured:boolean;visionConfigured:boolean;alipayConfigured:boolean;mcpEnabled:boolean;legalSources:{title:string;url:string;checkedAt:string;note:string}[]};
+export type ToolContext = {userId:string;caseId:string;signal?:AbortSignal};
+export interface BusinessServices {
+ getCase(userId:string,caseId:string):CaseRecord;
+ listCases(userId:string):CaseRecord[];
+ executeTool(name:string,input:Record<string,unknown>,context:ToolContext):Promise<unknown>;
+ getUser(userId:string):User;
+ authenticateToken(token:string):User|null;
+ getCapabilities():Capabilities;
+ linkAlipay(userId:string,alipayUserId:string):void;
+ unlinkAlipay(userId:string):void;
+}

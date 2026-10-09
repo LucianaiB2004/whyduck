@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {writeFileSync,mkdirSync} from 'node:fs';
+const base=process.env.SMOKE_URL||'http://127.0.0.1:3002';
+const checks=[];
+const html=await fetch(base+'/');assert.equal(html.status,200);const source=await html.text();assert.ok(source.includes('id="root"'));checks.push('生产 SPA 首页');
+const bundle=/src="([^"]+\.js)"/.exec(source)?.[1];assert.ok(bundle);assert.equal((await fetch(base+bundle)).status,200);checks.push('生产 JavaScript 静态资源');
+assert.equal((await fetch(base+'/assets/whyduck/characters/detective.webp')).status,200);checks.push('原创角色资源');
+const headers={'Content-Type':'application/json','X-WhyDuck-Client':'web',Origin:base};
+const registration=await fetch(base+'/api/auth/register',{method:'POST',headers,body:JSON.stringify({email:`production-${Date.now()}@example.test`,password:'Production-check-2026!',name:'生产构建验收'})});assert.equal(registration.status,201);const cookie=registration.headers.get('set-cookie')?.split(';')[0];assert.ok(cookie);
+const authenticated={...headers,Cookie:cookie};
+const created=await fetch(base+'/api/cases',{method:'POST',headers:authenticated,body:JSON.stringify({title:'生产构建验收案件'})});assert.equal(created.status,201);const {case:record}=await created.json();assert.equal((await fetch(base+'/api/cases/'+record.id,{headers:{Cookie:cookie}})).status,200);assert.equal((await fetch(base+'/api/cases/'+record.id)).status,401);checks.push('生产账户、Cookie 与私有案件隔离');
+const deleted=await fetch(base+'/api/cases/'+record.id,{method:'DELETE',headers:authenticated,body:JSON.stringify({confirmation:record.id})});assert.equal(deleted.status,200);checks.push('生产真实案件删除');
+mkdirSync('artifacts',{recursive:true});writeFileSync('artifacts/production-verification.json',JSON.stringify({ok:true,base,checks,modelCalls:false,externalPlatformCalls:false},null,2));console.log(JSON.stringify({ok:true,checks}));

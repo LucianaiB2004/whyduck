@@ -1,0 +1,1 @@
+import {api,openCase} from '../../utils/api';Page({data:{cases:[],error:''},onShow(){api('/api/cases').then(r=>this.setData({cases:r.cases,error:''})).catch(e=>this.setData({error:e.message}));},open(e){openCase(e.currentTarget.dataset.id);}});

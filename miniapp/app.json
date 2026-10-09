@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/chat/index",
+    "pages/cases/index",
+    "pages/evidence/index",
+    "pages/followup/index",
+    "pages/settings/index"
+  ],
+  "window": {
+    "defaultTitle": "凭啥鸭 · 售后鸭鸭局",
+    "titleBarColor": "#FFFDF6"
+  },
+  "tabBar": {
+    "textColor": "#726754",
+    "selectedColor": "#60482A",
+    "backgroundColor": "#FFFDF6",
+    "items": [
+      {
+        "pagePath": "pages/home/index",
+        "name": "事务所"
+      },
+      {
+        "pagePath": "pages/cases/index",
+        "name": "我的案件"
+      },
+      {
+        "pagePath": "pages/followup/index",
+        "name": "办事单"
+      },
+      {
+        "pagePath": "pages/settings/index",
+        "name": "设置"
+      }
+    ]
+  }
+}

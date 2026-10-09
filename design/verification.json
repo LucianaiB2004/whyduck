@@ -1,0 +1,576 @@
+{
+  "mode": "design-only",
+  "date": "2026-10-08",
+  "pages": [
+    {
+      "route": "home",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 16,
+      "screenshot": "screenshots/home-1440.png"
+    },
+    {
+      "route": "meeting",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 13,
+      "screenshot": "screenshots/meeting-1440.png"
+    },
+    {
+      "route": "butler",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/butler-1440.png"
+    },
+    {
+      "route": "analyst",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/analyst-1440.png"
+    },
+    {
+      "route": "detective",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/detective-1440.png"
+    },
+    {
+      "route": "refund",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/refund-1440.png"
+    },
+    {
+      "route": "followup",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/followup-1440.png"
+    },
+    {
+      "route": "escalation",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/escalation-1440.png"
+    },
+    {
+      "route": "cases",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 11,
+      "screenshot": "screenshots/cases-1440.png"
+    },
+    {
+      "route": "evidence",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 9,
+      "screenshot": "screenshots/evidence-1440.png"
+    },
+    {
+      "route": "evidence-detail",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/evidence-detail-1440.png"
+    },
+    {
+      "route": "timeline",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/timeline-1440.png"
+    },
+    {
+      "route": "tasks",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/tasks-1440.png"
+    },
+    {
+      "route": "drafts",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/drafts-1440.png"
+    },
+    {
+      "route": "report",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/report-1440.png"
+    },
+    {
+      "route": "settings",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/settings-1440.png"
+    },
+    {
+      "route": "account",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 4,
+      "screenshot": "screenshots/account-1440.png"
+    },
+    {
+      "route": "guide",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/guide-1440.png"
+    },
+    {
+      "route": "brand",
+      "width": 1440,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 3,
+      "screenshot": "screenshots/brand-1440.png"
+    },
+    {
+      "route": "home",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 16,
+      "screenshot": "screenshots/home-768.png"
+    },
+    {
+      "route": "meeting",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 13,
+      "screenshot": "screenshots/meeting-768.png"
+    },
+    {
+      "route": "butler",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/butler-768.png"
+    },
+    {
+      "route": "analyst",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/analyst-768.png"
+    },
+    {
+      "route": "detective",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/detective-768.png"
+    },
+    {
+      "route": "refund",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/refund-768.png"
+    },
+    {
+      "route": "followup",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/followup-768.png"
+    },
+    {
+      "route": "escalation",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/escalation-768.png"
+    },
+    {
+      "route": "cases",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 11,
+      "screenshot": "screenshots/cases-768.png"
+    },
+    {
+      "route": "evidence",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 9,
+      "screenshot": "screenshots/evidence-768.png"
+    },
+    {
+      "route": "evidence-detail",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/evidence-detail-768.png"
+    },
+    {
+      "route": "timeline",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/timeline-768.png"
+    },
+    {
+      "route": "tasks",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/tasks-768.png"
+    },
+    {
+      "route": "drafts",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/drafts-768.png"
+    },
+    {
+      "route": "report",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/report-768.png"
+    },
+    {
+      "route": "settings",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/settings-768.png"
+    },
+    {
+      "route": "account",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 4,
+      "screenshot": "screenshots/account-768.png"
+    },
+    {
+      "route": "guide",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/guide-768.png"
+    },
+    {
+      "route": "brand",
+      "width": 768,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 3,
+      "screenshot": "screenshots/brand-768.png"
+    },
+    {
+      "route": "home",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 16,
+      "screenshot": "screenshots/home-390.png"
+    },
+    {
+      "route": "meeting",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 13,
+      "screenshot": "screenshots/meeting-390.png"
+    },
+    {
+      "route": "butler",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/butler-390.png"
+    },
+    {
+      "route": "analyst",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/analyst-390.png"
+    },
+    {
+      "route": "detective",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/detective-390.png"
+    },
+    {
+      "route": "refund",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/refund-390.png"
+    },
+    {
+      "route": "followup",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/followup-390.png"
+    },
+    {
+      "route": "escalation",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 8,
+      "screenshot": "screenshots/escalation-390.png"
+    },
+    {
+      "route": "cases",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 11,
+      "screenshot": "screenshots/cases-390.png"
+    },
+    {
+      "route": "evidence",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 9,
+      "screenshot": "screenshots/evidence-390.png"
+    },
+    {
+      "route": "evidence-detail",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/evidence-detail-390.png"
+    },
+    {
+      "route": "timeline",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/timeline-390.png"
+    },
+    {
+      "route": "tasks",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 5,
+      "screenshot": "screenshots/tasks-390.png"
+    },
+    {
+      "route": "drafts",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/drafts-390.png"
+    },
+    {
+      "route": "report",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/report-390.png"
+    },
+    {
+      "route": "settings",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 7,
+      "screenshot": "screenshots/settings-390.png"
+    },
+    {
+      "route": "account",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 4,
+      "screenshot": "screenshots/account-390.png"
+    },
+    {
+      "route": "guide",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 2,
+      "screenshot": "screenshots/guide-390.png"
+    },
+    {
+      "route": "brand",
+      "width": 390,
+      "overflow": false,
+      "brokenImages": [],
+      "buttons": 3,
+      "screenshot": "screenshots/brand-390.png"
+    }
+  ],
+  "interactions": [
+    {
+      "width": 1440,
+      "test": "mention selection",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "six-member dialog",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "state dialog and Escape",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "case archive filter",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "confirmation guard",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "E003 source identity",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "test": "login-register state",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "mention selection",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "six-member dialog",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "state dialog and Escape",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "case archive filter",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "confirmation guard",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "E003 source identity",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "test": "login-register state",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "mention selection",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "six-member dialog",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "state dialog and Escape",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "case archive filter",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "confirmation guard",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "E003 source identity",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "login-register state",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "test": "mobile case panel",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

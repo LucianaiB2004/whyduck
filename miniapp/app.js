@@ -1,0 +1,1 @@
+App({globalData:{apiBase:'',token:'',caseId:''},onLaunch(){this.globalData.apiBase=my.getStorageSync({key:'whyduck_api'}).data||'';this.globalData.token=my.getStorageSync({key:'whyduck_token'}).data||'';}});

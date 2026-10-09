@@ -1,0 +1,110 @@
+[
+  {
+    "name": "analyst",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 45668,
+    "sha256": "891d9cbe8894a6e61736cfecf150d16d9149982c0f60afb6bb9a48be075bc3f1"
+  },
+  {
+    "name": "butler",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 40840,
+    "sha256": "256f8ead0a28da608a1861d21204856a2f8129d3be2120afc9e4de4a1c88f235"
+  },
+  {
+    "name": "detective",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 47574,
+    "sha256": "650c84ac97c7babe0893bbbbef788acaec44952602b3710510099672233f20fc"
+  },
+  {
+    "name": "escalation",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 46760,
+    "sha256": "fb8290e138d3269a72d03bc4d18e73899e9ad6a22e1f1f87f89ed611e5f1207a"
+  },
+  {
+    "name": "followup",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 46326,
+    "sha256": "5f6a4776946b1a7aa4b310674904fd55eb54c6749d27d675eb110df37c947d16"
+  },
+  {
+    "name": "refund",
+    "master": [
+      1024,
+      1024
+    ],
+    "web": [
+      640,
+      640
+    ],
+    "avatar": [
+      160,
+      160
+    ],
+    "transparent": true,
+    "webp_bytes": 46474,
+    "sha256": "982f4db7e58a44fd36cb3fd146aeb0f17486d2ae4deeae692b91aed0c3e5f428"
+  }
+]
